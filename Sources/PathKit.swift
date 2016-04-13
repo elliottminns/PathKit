@@ -41,7 +41,7 @@ public struct Path {
         } else if components.first == Path.separator && components.count > 1 {
             let p = components.joined(separator: Path.separator)
             #if os(Linux)
-                let index = p.startIndex.distanceTo(p.startIndex.successor())
+                let index = p.startIndex.distance(to: p.startIndex.successor())
                 path = NSString(string: p).substringFromIndex(index)
             #else
                 path = p.substring(from: p.startIndex.successor())
@@ -130,7 +130,12 @@ extension Path {
     ///   representation.
     ///
     public func normalize() -> Path {
-        return Path(NSString(string: self.path).standardizingPath)
+
+        #if os(Linux)
+            return Path(NSString(string: self.path).stringByStandardizingPath)
+        #else
+            return Path(NSString(string: self.path).standardizingPath)
+        #endif
     }
     
     /// De-normalizes the path, by replacing the current user home directory with "~".
