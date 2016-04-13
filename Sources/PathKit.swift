@@ -515,11 +515,13 @@ extension Path {
     /// - Note: Based on `NSUUID`.
     ///
     public static func uniqueTemporary() throws -> Path {
-           #if os(Linux)
-           let path = try processUniqueTemporary() + NSUUID().UUIDString
-       #else
-       let path = try processUniqueTemporary() + NSUUID().uuidString
-       #endif
+
+        #if os(Linux)
+            let path = try processUniqueTemporary() + NSUUID().UUIDString
+        #else
+            let path = try processUniqueTemporary() + NSUUID().uuidString
+        #endif
+
         return path
     }
 }
