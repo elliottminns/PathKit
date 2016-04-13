@@ -641,7 +641,7 @@ extension Path {
 
 extension Path {
 
-    public static func glob(pattern: String) -> [Path] {
+    public static func glob(_ pattern: String) -> [Path] {
         var gt = glob_t()
         let cPattern = strdup(pattern)
         defer {
