@@ -7,7 +7,7 @@ import CatchingFire
 class ManipulationTests : XCTestCase {
 
   var fixtures: Path {
-    return Path(__FILE__).parent() + "Fixtures"
+    return Path(#file).parent() + "Fixtures"
   }
 
   var fixtureFile: Path {
