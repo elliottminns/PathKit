@@ -21,7 +21,7 @@ public struct Path {
     /// The underlying string representation
     internal var path: String
     
-    internal static var fileManager = NSFileManager.defaultManager()
+    internal static var fileManager = NSFileManager.default()
     
     // MARK: Init
     
@@ -41,10 +41,10 @@ public struct Path {
         } else if components.first == Path.separator && components.count > 1 {
             let p = components.joined(separator: Path.separator)
             #if os(Linux)
-                let index = p.startIndex.distance(to: p.startIndex.successor())
+                let index = p.startIndex.distance(to: p.index(after: p.startIndex))
                 path = NSString(string: p).substringFromIndex(index)
             #else
-                path = p.substring(from: p.startIndex.successor())
+                path = p.substring(from: p.index(after: p.startIndex))
             #endif
             
         } else {
@@ -472,7 +472,7 @@ extension Path {
     /// - Parameter closure: A closure to be executed while the current directory is configured to
     ///   the path.
     ///
-    public func chdir(@noescape closure: () throws -> ()) rethrows {
+    public func chdir(closure: @noescape () throws -> ()) rethrows {
         let previous = Path.current
         Path.current = self
         defer { Path.current = previous }
